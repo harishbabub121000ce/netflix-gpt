@@ -1,25 +1,35 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Login from "./Login";
 import Browse from "./Browse";
 import Header from "./Header";
 
-
-const Body = () => {
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />,
-  },
-  {
-    path: '/browse',
-    element: <Browse />
-  },
-]);
+const AppLayout = () => {
   return (
     <div>
       <Header />
-      <RouterProvider router={router} />
+      <Outlet />
     </div>
   );
 };
+
+const Body = () => {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AppLayout />,
+      children: [
+        {
+          path: "/",
+          element: <Login />,
+        },
+        {
+          path: '/browse',
+          element: <Browse />
+        },
+      ],
+    },
+  ]);
+  return <RouterProvider router={router} />;
+};
+
 export default Body;
